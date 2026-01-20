@@ -15,20 +15,20 @@ from visualization_utils import plot_corr_heatmap, p_to_stars
 
 
 use_id = "sample_id"
-DATA = 'output/set_20kbp.protein_coding.gene_level_aggregated.dist_20000.tsv'
-base_patient = 'base_patient_df.filtered_hyperMut20.filtered_PFIproj.tsv'
+DATA = 'data/set_20kbp.protein_coding.gene_level_aggregated.dist_20000.tsv'
+base_patient = 'data/base_patient_df.filtered_hyperMut20.filtered_PFIproj.tsv'
 base_patient_df = pd.read_csv(base_patient, sep='\t')
 print(f"Loaded base patient data with {len(base_patient_df)} rows")
 df = pd.read_csv(DATA, sep='\t')
 print(f"Loaded aggregated data with {len(df)} rows")
 df['MAIN_REG_SCORE'] = df['MAX_ALL_MAX_ALL'] / df['NVAR_ALL'].replace(0, 1)
-cosmic_genes = pd.read_csv('resources/cosmic.07142025.21_22_13.csv')
+cosmic_genes = pd.read_csv('data/cosmic.07142025.21_22_13.csv')
 cosmic_hallmark = cosmic_genes[cosmic_genes['Hallmark'] == 'Yes']['Gene Symbol'].unique().tolist()
 cosmic_sets = {
     'cosmic_hallmark': cosmic_hallmark,
 }
 # save cosmic hallmark genes as a list txt
-with open('SUPP.used_cosmic_hallmark_genes.txt', 'w') as f:
+with open('results/used_cosmic_hallmark_genes.txt', 'w') as f:
     for gene in cosmic_hallmark:
         f.write(f"{gene}\n")
         
@@ -134,7 +134,7 @@ results = {}
 for set_name, genes in cosmic_sets.items():
     surv_df = compute_surv_df_for_gene_list(df, base_patient_df, genes, set_name, 
                                             zscore=True)
-    surv_df.to_csv(f'SUPP.surv_df_{set_name}.csv', sep=',', index=False)
+    surv_df.to_csv(f'results/surv_df_{set_name}.csv', sep=',', index=False)
     # plot correlation heatmap
     fig, ax, corr = plot_corr_heatmap(
         surv_df,
@@ -147,7 +147,7 @@ for set_name, genes in cosmic_sets.items():
     cph.plot()
     print(f"HR for effect_score in {set_name}: {cph.hazard_ratios_['effect_score']:.3f}, CI=[{cph.summary.loc['effect_score', 'exp(coef) lower 95%']:.3f}, {cph.summary.loc['effect_score', 'exp(coef) upper 95%']:.3f}], p={cph.summary.loc['effect_score', 'p']:.3e}")
     cph.check_assumptions(surv_df, p_value_threshold=0.05, show_plots=True)
-    cph.summary.to_csv(f'SUPP.cox_summary_{set_name}.FINAL.tsv', sep='\t')
+    cph.summary.to_csv(f'results/cox_summary_{set_name}.FINAL.tsv', sep='\t')
 
 # PLOT FOREST PLOT PRETTY
 summary = cph.summary.copy().reset_index().rename(columns={'covariate': 'variable'})

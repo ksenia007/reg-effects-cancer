@@ -684,6 +684,6 @@ for cl in cluster_corr.keys():
     cluster_top[cl] = ','.join(genes)
 
 cluster_top = pd.DataFrame.from_dict(cluster_top, orient='index', columns=['top50_genes'])
-cluster_top.to_csv('SUPP.cluster_top50_genes.MAX.FINAL.csv')
+cluster_top.to_csv('results/cluster_top50_genes.MAX.FINAL.csv')
 
 # %%

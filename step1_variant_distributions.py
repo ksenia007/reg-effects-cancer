@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import mannwhitneyu
 
-cosmic_genes = pd.read_csv('resources/cosmic.07142025.21_22_13.csv')
+cosmic_genes = pd.read_csv('data/cosmic.07142025.21_22_13.csv')
 cosmic_genes_tier1 = cosmic_genes[cosmic_genes['Tier'] == 1]['Gene Symbol'].unique().tolist()
 cosmic_genes_tier2 = cosmic_genes[cosmic_genes['Tier'] == 2]['Gene Symbol'].unique().tolist()
 cosmic_hallmark = cosmic_genes[cosmic_genes['Hallmark'] == 'Yes']['Gene Symbol'].unique().tolist()
@@ -17,10 +17,10 @@ print(f"Number of COSMIC Hallmark genes: {len(cosmic_hallmark)}")
 non_cosmic = []
 hallmark = []
 
-LOC_FILES_GENE   = 'protein_coding.variant_to_gene.deid.tsv'
-LOC_PREDS        = 'sorted.protein_coding_20kb.all_chunks.sequence_class_scores.tsv'
-PYCLONE_COMBINED = 'pyclone_vi_all_results.filtered_assignm_prob.tsv'
-INFO_USED = 'SUPP.surv_df_cosmic_hallmark.csv'
+LOC_FILES_GENE   = 'data/protein_coding.variant_to_gene.deid.tsv'
+LOC_PREDS        = 'data/sorted.protein_coding_20kb.all_chunks.sequence_class_scores.tsv'
+PYCLONE_COMBINED = 'data/pyclone_vi_all_results.filtered_assignm_prob.tsv'
+INFO_USED = 'data/surv_df_cosmic_hallmark.csv'
 DIST = 20000
 SEQ_CLASSES_ALL = ['PC1 Polycomb / Heterochromatin', 'L1 Low signal', 'TN1 Transcription',
        'TN2 Transcription', 'L2 Low signal', 'E1 Stem cell', 'E2 Multi-tissue',
@@ -36,7 +36,7 @@ SEQ_CLASSES_ALL = ['PC1 Polycomb / Heterochromatin', 'L1 Low signal', 'TN1 Trans
        'HET5 Centromere', 'E11 T-cell', 'TF5 AR', 'E12 Erythroblast-like',
        'HET6 Centromere']
 
-NORM_STD  = np.load('resources/1000G.EUR.std.npy')[:len(SEQ_CLASSES_ALL)]
+NORM_STD  = np.load('data/1000G.EUR.std.npy')[:len(SEQ_CLASSES_ALL)]
 
 # Variant -> gene mapping
 var_gene = pd.read_csv(LOC_FILES_GENE, sep='\t')
@@ -47,7 +47,7 @@ print(f"Before filtering, max distance is {var_gene['dist'].max()}")
 var_gene = var_gene[var_gene['dist'] <= DIST]
 var_gene = var_gene[['variant_id', 'gene_name']]
 
-path = "/pph/controlled/dbGaP/GDC_TCGA/input/genetic/snv/processed_sets/pyclone_vi_all_results.filtered_assignm_prob.tsv"
+path = "data/pyclone_vi_all_results.filtered_assignm_prob.tsv"
 
 col0 = pd.read_csv(
     path,

@@ -212,7 +212,7 @@ DATA = 'output/set_20kbp.protein_coding.gene_level_aggregated.dist_20000.tsv'
 base_patient = 'base_patient_df.filtered_hyperMut20.filtered_PFIproj.tsv'
 base_patient_df = pd.read_csv(base_patient, sep='\t')
 print(f"Loaded base patient data with {len(base_patient_df)} rows")
-cosmic_genes = pd.read_csv('/data/sokolova/cancer_lucaria/SUPP.used_cosmic_hallmark_genes.txt', header=None)[0].values
+cosmic_genes = pd.read_csv('results/used_cosmic_hallmark_genes.txt', header=None)[0].values
 cosmic_sets = {
     'cosmic_hallmark': cosmic_genes,
 }
@@ -243,7 +243,7 @@ for set_name, genes in cosmic_sets.items():
     plt.show()
     _, cph = fit_cox(surv_df)
     # save cph summary 
-    cph.summary.to_csv(f'SUPP.coxph_summary_clonal_subclonal.FINAL.tsv', sep='\t')
+    cph.summary.to_csv(f'results/coxph_summary_clonal_subclonal.FINAL.tsv', sep='\t')
     cph.print_summary()
     cph.plot()
     print(f"HR for effect_score_clonal in {set_name}: {cph.hazard_ratios_['effect_score_clonal']:.3f}")
