@@ -16,7 +16,7 @@ The analysis pipeline consists of four main steps:
 
 ### 2. Survival Analysis (`step2_regulatory_pfi_models.py`)
 - Kaplan-Meier curve for samples with high and low regulatory effects 
-- Cox proportional hazards regression controlling for mutation burden, FGA, age, and coding mutations
+- Cox proportional hazards regression controlling for mutation burden, FGA, age, and nonsilent mutation burden
 - Stability analyses: gene dropout, sample dropout, leave-one-cancer-out (LOCO)
 - Generates forest plots, Kaplan-Meier curves, and recurrence visualizations
 
@@ -30,12 +30,12 @@ The analysis pipeline consists of four main steps:
 - Gene-cluster alignment and Jaccard overlap analysis
 
 ### Supporting Modules
-- `create_clonality_aware_score.py`: Pre-processing pipeline for aggregating variant-level SEI scores to gene x sample level
+- `create_clonality_aware_score.py`: Pre-processing pipeline for aggregating variant-level Sei scores to gene x sample level
 - `utils.py`: Core functions for survival analysis, normalization, and stability testing
 - `visualization_utils.py`: Plotting functions for publication-quality figures
 
 ## Data Requirements
-Please note that part of this analysis requires access to the TCGA WGS files
+Please note that part of this analysis requires controlled access to TCGA whole-genome sequencing (WGS) data. 
 
 ## Requirements
 
