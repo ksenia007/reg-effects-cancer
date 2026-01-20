@@ -25,7 +25,7 @@ The analysis pipeline consists of four main steps:
 - Independent Cox models for clonal and subclonal regulatory scores
 
 ### 4. Regulatory Clustering (`step4_clustering.py`)
-- Hierarchical clustering of samples by chromatin state-specific regulatory disruption
+- Clustering of samples by chromatin sequence class-specific regulatory disruption
 - Stability analysis to determine optimal cluster number
 - Gene-cluster alignment and Jaccard overlap analysis
 
